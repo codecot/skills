@@ -41,3 +41,4 @@ issue: adversarial review is the point.
 ## Added 2026-09
 
 - `recon-principle-audit` — audit a codebase against a principle list: ENFORCED / STATED / ABSENT / CONTRADICTED, with paths. Prose is not mechanism. Pairs with `recon-system-map`.
+- `spec-canon-compaction` — turn a pile of specs into one living canon per subsystem, every sentence sourced, contradictions listed for a human; specs stay as the ledger.
