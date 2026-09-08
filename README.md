@@ -11,6 +11,7 @@ judgement in the loop:
 
 - reviews that must point to files, not impressions
 - recon that says `UNKNOWN` instead of guessing
+- audits that separate what a system ENFORCES from what it merely STATES
 - RAG that abstains instead of inventing
 - critics that argue with reasons, and never hold veto
 
@@ -36,3 +37,7 @@ generated in bulk. If something here is wrong or has a sharper form, open an
 issue: adversarial review is the point.
 
 — Volodymyr Pasichnyk · [codecot.com](https://codecot.com)
+
+## Added 2026-09
+
+- `recon-principle-audit` — audit a codebase against a principle list: ENFORCED / STATED / ABSENT / CONTRADICTED, with paths. Prose is not mechanism. Pairs with `recon-system-map`.
