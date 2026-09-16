@@ -20,6 +20,9 @@ judgement in the loop:
 - `skills/` — single-purpose prompts you paste into any capable agent
   (Claude Code, Codex, Cursor, a chat). Each is a versioned card with
   provenance: where it came from, what it's for, its known limits.
+- `tools/` — small executable tools that carry the same theme into code.
+  Currently: `runbook` — a markdown setup document whose steps verify themselves
+  (checks, critical gates, human steps, undo).
 - `agents/` — fuller agent/subagent definitions (roles with contracts).
   Currently: `spec-writer`, `snapshot-reviewer`, `cycle-closer` — ported from Factory's contours (sanitized) —
   and `spec-drafter`, `memory-snapshot-reviewer`, `cycle-close-verifier` — ported from the operator-side subagents used alongside Factory (sanitized).
