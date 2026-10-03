@@ -41,6 +41,10 @@ issue: adversarial review is the point.
 
 — Volodymyr Pasichnyk · [codecot.com](https://codecot.com)
 
+## Added 2026-10
+
+- `contribution-report` — a factual "my contribution" report from your own git history, one quarter at a time, then one merge pass; UNCLEAR over guessing; nothing leaves the machine the repositories live on.
+
 ## Added 2026-09
 
 - `recon-principle-audit` — audit a codebase against a principle list: ENFORCED / STATED / ABSENT / CONTRADICTED, with paths. Prose is not mechanism. Pairs with `recon-system-map`.
