@@ -43,6 +43,7 @@ issue: adversarial review is the point.
 
 ## Added 2026-10
 
+- `handover-brief` — a spoken-English brief of a system you work on (screens, measures, data flow, failure path, ownership), identifiers replaced by bracketed categories, UNKNOWN where the code is silent; read it on the machine the repo lives on before it travels.
 - `contribution-report` — a factual "my contribution" report from your own git history, one quarter at a time, then one merge pass; UNCLEAR over guessing; nothing leaves the machine the repositories live on.
 
 ## Added 2026-09
