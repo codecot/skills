@@ -49,7 +49,8 @@ nvm uninstall 20
 ````
 
 A check passes on exit code 0. The language is `bash` unless you say otherwise;
-`sh`, `zsh` and `python` also work.
+`sh`, `zsh`, `python` and `node` also work (`node` runs the body with `node -e`,
+so a JavaScript check is one block, no file on disk).
 
 Block attributes:
 
@@ -82,6 +83,13 @@ document.
 written to the state file. Secret values are masked in everything the engine
 prints. A value already in the real environment is taken from there and not
 asked for.
+
+## Rendering
+
+`runbook render setup.md` writes `setup.md.html`: the same document, one page,
+with the state of every step next to its heading, the blocks as written and the
+tail of failing output under a red step. No server, no JavaScript, open the file.
+It is a view over the state file, so run `status` or `run` first.
 
 ## State
 
