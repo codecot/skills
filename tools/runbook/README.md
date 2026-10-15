@@ -1,6 +1,6 @@
 # runbook — a setup document that checks itself
 
-**Version:** v1
+**Version:** v2
 **Lineage:** written for a real problem: a step-by-step access-setup instruction
 handed to a team, where "I did step 4" is a claim nobody can verify. Same theme as
 the rest of this repo — evidence over assertion — applied to documents instead of
@@ -41,6 +41,7 @@ python3 runbook.py run     setup.md --yes    # no questions, for a second machin
 python3 runbook.py step    setup.md node --fix
 python3 runbook.py teardown setup.md         # undo blocks, bottom to top
 python3 runbook.py plan    setup.md --json   # structure and state for another front end
+python3 runbook.py render  setup.md          # one HTML page: the document with its step states
 ```
 
 Exit codes: `0` all green, `1` something red, `2` a critical gate stopped the walk,
@@ -75,7 +76,9 @@ editor extension or a package install before step one. Python 3 is already there
 node is often the thing the runbook is about to install.
 
 The decision stays open: `plan --json` and the state file are the entire model as
-data. A web page or a TUI is a front end over that, not a rewrite.
+data. `render` is the first such front end: one static HTML page, the document as
+written with a green or red badge on every step, readable on a phone, attachable
+to a ticket. Nothing runs in the browser.
 
 ## Tests
 
@@ -83,8 +86,9 @@ data. A web page or a TUI is a front end over that, not a rewrite.
 python3 tests/test_runbook.py
 ```
 
-25 tests, no network, no installs: parsing, gates, dependency blocking, state across
-runs, captured variables, secret handling, timeouts, teardown order.
+28 tests, no network, no installs: parsing, gates, dependency blocking, state across
+runs, captured variables, secret handling, timeouts, teardown order, node blocks,
+rendering.
 
 ## Known limits
 
@@ -93,3 +97,13 @@ runs, captured variables, secret handling, timeouts, teardown order.
 - Inside a walk you cannot go back a step; you rerun it with `step --fix`.
 - A document cannot include another document, so very large setups stay one file.
 - Shell blocks assume a POSIX shell. Windows is untested.
+- `render` shows state, it does not run anything. A page is as fresh as the last
+  `status` or `run`.
+
+## Changelog
+
+- v2 (2026-10) — `node` blocks (`node -e`), `render` command (one HTML page with
+  step states, prose kept next to its step), engine 0.2. Motivated by the question
+  "can this read like a notebook without becoming one": yes, the notebook is a
+  view, the document stays markdown.
+- v1 (2026-09) — extracted from a real access-setup instruction; engine 0.1.

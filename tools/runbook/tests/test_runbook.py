@@ -412,6 +412,63 @@ import sys; sys.exit(0)
         empty = write(self.tmp, "e.md", "just prose, no headings\n")
         self.assertEqual(run(["status", str(empty), "--no-color"]), 3)
 
+    def test_node_blocks_run_too(self):
+        f = write(self.tmp, "js.md", """## Node check
+
+```node check
+if (typeof process.version !== "string") process.exit(1)
+```
+""")
+        import shutil
+        if not shutil.which("node"):
+            self.skipTest("node is not installed here")
+        self.assertEqual(run(["status", str(f), "--no-color"]), 0)
+
+    def test_prose_between_blocks_belongs_to_the_step(self):
+        f = write(self.tmp, "prose.md", """# Doc
+
+## First {#one}
+
+Why this step exists.
+
+```check
+true
+```
+
+### A deeper heading is prose too
+
+## Second {#two}
+""")
+        book = rb.parse(f)
+        self.assertIn("Why this step exists.", book.steps[0].prose)
+        self.assertIn("A deeper heading is prose too", book.steps[0].prose)
+        self.assertEqual(book.steps[1].prose.strip(), "")
+
+    def test_render_writes_one_html_page_with_states(self):
+        f = write(self.tmp, "r.md", """# Render me
+
+## Green {#g}
+
+```check
+true
+```
+
+## Red {#r}
+
+```check
+echo boom; false
+```
+""")
+        run(["status", str(f), "--no-color"])
+        out = self.tmp / "r.html"
+        self.assertEqual(run(["render", str(f), "--no-color", "-o", str(out)]), 0)
+        html = out.read_text(encoding="utf-8")
+        self.assertIn("<title>Render me</title>", html)
+        self.assertIn('class="badge pass"', html)
+        self.assertIn('class="badge fail"', html)
+        self.assertIn("boom", html)
+        self.assertIn("echo boom; false", html)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

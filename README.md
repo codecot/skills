@@ -22,7 +22,8 @@ judgement in the loop:
   provenance: where it came from, what it's for, its known limits.
 - `tools/` — small executable tools that carry the same theme into code.
   Currently: `runbook` — a markdown setup document whose steps verify themselves
-  (checks, critical gates, human steps, undo).
+  (checks, critical gates, human steps, undo, `node` and `python` blocks, and a
+  `render` command that shows the document with its step states as one HTML page).
 - `agents/` — fuller agent/subagent definitions (roles with contracts).
   Currently: `spec-writer`, `snapshot-reviewer`, `cycle-closer` — ported from Factory's contours (sanitized) —
   and `spec-drafter`, `memory-snapshot-reviewer`, `cycle-close-verifier` — ported from the operator-side subagents used alongside Factory (sanitized).
@@ -42,6 +43,8 @@ issue: adversarial review is the point.
 — Volodymyr Pasichnyk · [codecot.com](https://codecot.com)
 
 ## Added 2026-10
+
+- `runbook-author` — turn a step-by-step instruction into a runbook: outcomes as headings, honest checks or an explicit human step, idempotent `do`, `undo` for everything that must be cleaned up, secrets never in the file. Pairs with `tools/runbook` v2 (`node` blocks, `render`).
 
 - `handover-brief` — a spoken-English brief of a system you work on (screens, measures, data flow, failure path, ownership), identifiers replaced by bracketed categories, UNKNOWN where the code is silent; read it on the machine the repo lives on before it travels.
 - `contribution-report` — a factual "my contribution" report from your own git history, one quarter at a time, then one merge pass; UNCLEAR over guessing; nothing leaves the machine the repositories live on.

@@ -23,10 +23,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional
 
-VERSION = "0.1"
+VERSION = "0.2"
 
 ROLES = {"check", "do", "undo", "ask"}
 SHELL_LANGS = {"sh", "bash", "zsh", "shell"}
+PYTHON_LANGS = {"python", "python3"}
+NODE_LANGS = {"node", "js", "javascript"}
 
 PASS = "pass"
 FAIL = "fail"
@@ -100,6 +102,7 @@ class Step:
     flags: List[str] = field(default_factory=list)
     attrs: Dict[str, str] = field(default_factory=dict)
     blocks: List[Block] = field(default_factory=list)
+    prose: str = ""
 
     @property
     def critical(self) -> bool:
@@ -212,6 +215,8 @@ def parse(path: Path) -> Runbook:
                 step_level = level
             if level > step_level:
                 # deeper headings are prose inside the current step
+                if steps:
+                    steps[-1].prose += text + "\n"
                 i += 1
                 continue
             sid = ident or slug(text)
@@ -223,6 +228,8 @@ def parse(path: Path) -> Runbook:
             steps.append(Step(id=sid, title=text, level=level, line=i + 1, flags=flags, attrs=attrs))
             i += 1
             continue
+        if steps:
+            steps[-1].prose += line + "\n"
         i += 1
 
     return Runbook(path=path, title=title, steps=steps, doc_blocks=doc_blocks)
@@ -236,7 +243,7 @@ def make_block(info: str, body: str, line: int) -> Optional[Block]:
     for f in flags:
         if role is None and f in ROLES:
             role = f
-        elif not lang and (f in SHELL_LANGS or f in {"python", "python3"}):
+        elif not lang and (f in SHELL_LANGS or f in PYTHON_LANGS or f in NODE_LANGS):
             lang = f
         else:
             rest.append(f)
@@ -246,7 +253,12 @@ def make_block(info: str, body: str, line: int) -> Optional[Block]:
         else:
             return None  # documentation block, not executable
     if not lang:
-        lang = "python3" if role != "ask" and "python" in rest else "bash"
+        if role != "ask" and "python" in rest:
+            lang = "python3"
+        elif role != "ask" and "node" in rest:
+            lang = "node"
+        else:
+            lang = "bash"
     return Block(role=role, lang=lang, body=body, attrs=attrs, flags=rest, line=line)
 
 
@@ -353,8 +365,13 @@ class Engine:
     # ---- execution primitives -------------------------------------------------
     def shell_for(self, block: Block) -> List[str]:
         want = block.attrs.get("shell", block.lang)
-        if want in {"python", "python3"}:
+        if want in PYTHON_LANGS:
             return [sys.executable, "-c", block.body]
+        if want in NODE_LANGS:
+            node = shutil.which("node")
+            if not node:
+                return ["/bin/sh", "-c", "echo 'node is not installed' >&2; exit 127"]
+            return [node, "-e", block.body]
         path = shutil.which(want) or shutil.which("bash") or "/bin/sh"
         return [path, "-c", block.body]
 
@@ -648,6 +665,90 @@ def cmd_plan(book: Runbook, state: State, con: Console, args) -> int:
     return 0
 
 
+def cmd_render(book: Runbook, state: State, con: Console, args) -> int:
+    """One self-contained HTML page: the document as written, with the state of
+    every step next to its heading. A front end over plan --json, nothing more."""
+    html = render_html(book, state)
+    out = args.output or book.path.with_suffix(book.path.suffix + ".html")
+    if str(out) == "-":
+        sys.stdout.write(html)
+        return 0
+    Path(out).write_text(html, encoding="utf-8")
+    con.say("wrote %s" % out)
+    return 0
+
+
+def esc(text: str) -> str:
+    return (text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;"))
+
+
+RENDER_CSS = """
+:root{--bg:#fbfaf7;--ink:#1d1b16;--mute:#6f6a5e;--line:#e6e2d8;--code:#f1efe8;
+--pass:#1d7a46;--fail:#b4302a;--blocked:#8a7b3a;--skip:#7a7268;--unknown:#8d8a84}
+@media (prefers-color-scheme:dark){:root{--bg:#161511;--ink:#ece8df;--mute:#a39d90;
+--line:#2d2a24;--code:#201e18;--pass:#4fc27f;--fail:#f06b63;--blocked:#d8bd5c;--skip:#a39d90;--unknown:#8d8a84}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:46rem;margin:0 auto;padding:2rem 16px 4rem}
+h1{font-size:1.8rem;margin:0 0 .25rem}.sub{color:var(--mute);margin:0 0 2rem;font-size:.9rem}
+section{border-top:1px solid var(--line);padding:1.1rem 0}
+h2{font-size:1.1rem;margin:0 0 .4rem;display:flex;gap:.6rem;align-items:baseline}
+.badge{font:600 .72rem/1 ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;
+padding:.3rem .5rem;border-radius:999px;color:#fff;background:var(--unknown);white-space:nowrap}
+.badge.pass{background:var(--pass)}.badge.fail{background:var(--fail)}.badge.blocked{background:var(--blocked)}
+.badge.skipped{background:var(--skip)}.meta{color:var(--mute);font-size:.8rem;margin:0 0 .5rem;font-family:ui-monospace,monospace}
+pre{background:var(--code);border:1px solid var(--line);border-radius:6px;padding:.7rem .9rem;overflow:auto;
+font:.85rem/1.45 ui-monospace,monospace;margin:.4rem 0}
+pre.role::before{content:attr(data-role);display:block;color:var(--mute);font-size:.7rem;letter-spacing:.08em;
+text-transform:uppercase;margin-bottom:.3rem}pre.out{border-left:3px solid var(--fail)}
+p{margin:.4rem 0}.summary{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0 0;font-size:.9rem}
+"""
+
+
+def render_html(book: Runbook, state: State) -> str:
+    parts = []
+    parts.append("<!doctype html><html><head><meta charset=\"utf-8\">")
+    parts.append("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">")
+    parts.append("<title>%s</title><style>%s</style></head><body><main>" % (esc(book.title), RENDER_CSS))
+    parts.append("<h1>%s</h1>" % esc(book.title))
+    counts: Dict[str, int] = {}
+    for step in book.steps:
+        st = state.status(step.id)
+        counts[st] = counts.get(st, 0) + 1
+    summary = " · ".join("%s %d" % (k, v) for k, v in sorted(counts.items()))
+    parts.append("<p class=\"sub\">%s · runbook %s · %s</p>" % (esc(book.path.name), VERSION, esc(summary)))
+    for n, step in enumerate(book.steps, 1):
+        st = state.status(step.id)
+        entry = state.data["steps"].get(step.id, {})
+        parts.append("<section id=\"%s\">" % esc(step.id))
+        tag = " critical" if step.critical else ""
+        parts.append("<h2><span class=\"badge %s\">%s</span> %d. %s</h2>" % (st, esc(st), n, esc(step.title)))
+        meta = ["#" + step.id]
+        if step.critical:
+            meta.append("critical gate")
+        if step.needs:
+            meta.append("needs " + ", ".join(step.needs))
+        if entry.get("exit") is not None:
+            meta.append("exit %s" % entry.get("exit"))
+        if entry.get("checked_at"):
+            meta.append("checked " + str(entry["checked_at"]))
+        parts.append("<p class=\"meta\">%s</p>" % esc(" · ".join(meta)))
+        if step.prose.strip():
+            for para in re.split(r"\n\s*\n", step.prose.strip()):
+                parts.append("<p>%s</p>" % esc(para.strip()))
+        for block in step.blocks:
+            parts.append("<pre class=\"role\" data-role=\"%s · %s\">%s</pre>" % (
+                esc(block.role), esc(block.lang), esc(block.body.rstrip())))
+        if st in (FAIL, BLOCKED) and (entry.get("note") or entry.get("output")):
+            text = entry.get("note", "")
+            if entry.get("output"):
+                text = (text + "\n" if text else "") + entry["output"]
+            parts.append("<pre class=\"out\">%s</pre>" % esc(text.strip()))
+        parts.append("</section>")
+    parts.append("</main></body></html>\n")
+    return "".join(parts)
+
+
 def cmd_vars(book: Runbook, state: State, con: Console, args) -> int:
     con.head("vars in %s" % state.path.name)
     for k, v in sorted(state.data.get("vars", {}).items()):
@@ -734,6 +835,9 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--json", action="store_true")
     pl.set_defaults(func=cmd_plan)
 
+    rd = common(sub.add_parser("render", help="write the document as one HTML page with step states"))
+    rd.add_argument("--output", "-o", help="file to write, or - for stdout")
+    rd.set_defaults(func=cmd_render)
     v = common(sub.add_parser("vars", help="show saved inputs"))
     v.set_defaults(func=cmd_vars)
     return p
