@@ -23,7 +23,9 @@ judgement in the loop:
 - `tools/` — small executable tools that carry the same theme into code.
   Currently: `runbook` — a markdown setup document whose steps verify themselves
   (checks, critical gates, human steps, undo, `node` and `python` blocks, and a
-  `render` command that shows the document with its step states as one HTML page).
+  `render` command that shows the document with its step states as one HTML page),
+  and `chat-usage` — counts your own local VS Code Copilot Chat history (span,
+  months, models, longest sessions, retry loops) for the `ai-usage-audit` skill.
 - `agents/` — fuller agent/subagent definitions (roles with contracts).
   Currently: `spec-writer`, `snapshot-reviewer`, `cycle-closer` — ported from Factory's contours (sanitized) —
   and `spec-drafter`, `memory-snapshot-reviewer`, `cycle-close-verifier` — ported from the operator-side subagents used alongside Factory (sanitized).
