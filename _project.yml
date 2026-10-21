@@ -1,0 +1,13 @@
+slug: skills
+kind: other
+primary_language: python
+frameworks: []
+runtimes:
+  - python3
+external_services:
+  - ollama
+entry_points:
+  test: python3 tools/runbook/tests/test_runbook.py && python3 tools/chat-usage/tests/test_chat_usage.py
+deploy:
+  target: none
+  docs: PROJECT.md#5-how-to-deploy
