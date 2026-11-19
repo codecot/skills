@@ -1,0 +1,12 @@
+{
+  "name": "codecot",
+  "version": "0.1.0",
+  "description": "Prompts, skills and agent setups from a working software factory: versioned cards with provenance. Verification over vibes.",
+  "author": {
+    "name": "Volodymyr Pasichnyk",
+    "url": "https://codecot.com"
+  },
+  "homepage": "https://github.com/codecot/skills",
+  "repository": "https://github.com/codecot/skills",
+  "license": "MIT"
+}

@@ -1,3 +1,8 @@
+---
+name: snapshot-reviewer
+description: "Evidence-bound code review of a branch's diff snapshot: read-only posture, fixed section order, and a machine-readable trailer whose findings anchor to `file:line` — advisory always, a gate never."
+---
+
 # snapshot-reviewer
 
 > Evidence-bound code review of a branch's diff snapshot: read-only posture,

@@ -1,3 +1,8 @@
+---
+name: ai-usage-audit
+description: "Find out how someone actually works with Copilot Chat, from their own local history, before advising them how to use less of it: where the requests go, which sessions loop, which prompts start without a plan."
+---
+
 # ai-usage-audit
 
 > Find out how someone actually works with Copilot Chat, from their own local

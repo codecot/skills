@@ -1,3 +1,8 @@
+---
+name: recon-principle-audit
+description: "Audit an unfamiliar codebase against a stated set of engineering principles: for each principle, find where it is ENFORCED by mechanism, where it is only STATED in prose, where it is ABSENT, and where the code CONTRADICTS it. Evidence-bound, read-only, honest about unknowns. The question it…"
+---
+
 # recon-principle-audit
 
 > Audit an unfamiliar codebase against a stated set of engineering principles:

@@ -1,3 +1,8 @@
+---
+name: spec-writer
+description: "Negotiate a raw brain-dump into an implementable specification: the agent reads the actual code, asks at most one focused question when the intent genuinely forks, and otherwise delivers a complete task.md draft."
+---
+
 # spec-writer
 
 > Negotiate a raw brain-dump into an implementable specification: the agent

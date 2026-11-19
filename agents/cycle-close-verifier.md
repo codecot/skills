@@ -1,3 +1,8 @@
+---
+name: cycle-close-verifier
+description: "Decide whether a declared work cycle is actually done: trace every acceptance criterion to `file:line` evidence, cross-check state snapshots for regression signals, and produce a review report — recommendation only, never the close itself."
+---
+
 # cycle-close-verifier
 
 > Decide whether a declared work cycle is actually done: trace every
