@@ -1,3 +1,8 @@
+---
+name: spec-canon-compaction
+description: "Turn a pile of specification files into one living canon per subsystem — \"what is true now\" — with every claim traced to a spec or a test, a list of contradictions for a human, and the specs themselves left untouched as the ledger. For codebases where reading the specs has become a token bill."
+---
+
 # spec-canon-compaction
 
 > Turn a pile of specification files into one living canon per subsystem —

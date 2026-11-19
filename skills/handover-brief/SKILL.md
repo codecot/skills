@@ -1,3 +1,8 @@
+---
+name: handover-brief
+description: "Produce a spoken-English description of a system you work on — what it does, which screens and reports it has, which measures it shows, how data flows and fails — in categories only, with every identifier replaced by a bracketed category. For onboarding a new teammate, handing a project over, or…"
+---
+
 # handover-brief
 
 > Produce a spoken-English description of a system you work on — what it does,

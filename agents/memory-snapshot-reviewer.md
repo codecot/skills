@@ -1,3 +1,8 @@
+---
+name: memory-snapshot-reviewer
+description: "Mechanical, deterministic review of a generated project-state snapshot: six checks (frontmatter, sections, evidence-tag coverage, classification discipline, range coverage, contamination guard), a binary verdict, and a routing recommendation — no prose judgement, no writes."
+---
+
 # memory-snapshot-reviewer
 
 > Mechanical, deterministic review of a generated project-state snapshot:

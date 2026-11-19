@@ -1,3 +1,8 @@
+---
+name: data-architecture-recon
+description: "Analyze an application's data layer and produce a sanitized report answering the questions that actually decide database design — before anyone argues about table sizes."
+---
+
 # data-architecture-recon
 
 > Analyze an application's data layer and produce a sanitized report answering

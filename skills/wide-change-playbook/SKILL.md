@@ -1,3 +1,8 @@
+---
+name: wide-change-playbook
+description: "Turn a bundled \"modernization\" diff — formatter + dependency bumps + cleanup in one PR — into a sequence of independently verifiable changes, before it becomes an unattributable incident."
+---
+
 # wide-change-playbook
 
 > Turn a bundled "modernization" diff — formatter + dependency bumps + cleanup

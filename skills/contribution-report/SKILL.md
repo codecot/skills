@@ -1,3 +1,8 @@
+---
+name: contribution-report
+description: "Build a factual \"my contribution to the project\" report from your own git history — one quarter at a time, then one merge pass — when you leave a project or have to account for a long period."
+---
+
 # contribution-report
 
 > Build a factual "my contribution to the project" report from your own git

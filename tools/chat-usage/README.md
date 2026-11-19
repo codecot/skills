@@ -1,7 +1,7 @@
 # chat-usage — count your own Copilot Chat history, locally
 
 **Runs with:** Python 3.8+, standard library only. Nothing to install, nothing leaves the machine.
-**Used by:** the `skills/ai-usage-audit.md` skill.
+**Used by:** the `skills/ai-usage-audit/SKILL.md` skill.
 
 VS Code keeps Copilot Chat sessions on disk, per workspace: `workspaceStorage/<id>/chatSessions/*.json` (snapshots) and `*.jsonl` (journals), plus `globalStorage/emptyWindowChatSessions/` for chats with no folder open. This tool reads them and writes:
 

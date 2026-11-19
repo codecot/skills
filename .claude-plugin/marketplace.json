@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "codecot",
+  "description": "Skills and agents from a working software factory, built around evidence and a human on every merge.",
+  "owner": {
+    "name": "Volodymyr Pasichnyk",
+    "url": "https://codecot.com"
+  },
+  "plugins": [
+    {
+      "name": "codecot",
+      "description": "Versioned skills and agents: spec review, codebase recon, principle audits, contribution reports, runbooks, prose-check.",
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/codecot/skills"
+    }
+  ]
+}

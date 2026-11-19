@@ -1,3 +1,8 @@
+---
+name: runbook-author
+description: "Turn a step-by-step setup instruction into a runbook: a markdown document whose steps can verify themselves. Reach for it when someone hands you \"do these 14 things\" and nobody can tell afterwards which of the 14 are actually done."
+---
+
 # runbook-author
 
 > Turn a step-by-step setup instruction into a runbook: a markdown document whose steps can verify themselves. Reach for it when someone hands you "do these 14 things" and nobody can tell afterwards which of the 14 are actually done.

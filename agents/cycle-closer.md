@@ -1,3 +1,8 @@
+---
+name: cycle-closer
+description: "Close the loop between what a goal claims and what the code contains: extract the goal's declared features (its Δ list), then reconcile each against the actual tree — covered / missing / inconclusive, with a real `path:line` behind every \"covered\"."
+---
+
 # cycle-closer
 
 > Close the loop between what a goal claims and what the code contains:

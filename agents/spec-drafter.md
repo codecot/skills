@@ -1,3 +1,8 @@
+---
+name: spec-drafter
+description: "An operator-side spec author: loads the project's context (roadmap, state snapshot, recent specs), asks at most two questions, and turns raw ideas into a task.md draft — enforcing house principles like append-only history and one-new-abstraction-per-iteration."
+---
+
 # spec-drafter
 
 > An operator-side spec author: loads the project's context (roadmap, state

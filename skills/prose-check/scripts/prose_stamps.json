@@ -1,0 +1,91 @@
+{
+  "_comment": "Phrase catalogue for prose_stamps.py (English). Each category: severity (hit|hint) and case-insensitive regexes. Built from Wikipedia 'Signs of AI writing'.",
+  "fake_contrast": {
+    "severity": "hit",
+    "patterns": [
+      "\\b(?:is|are|was|it'?s|that'?s|this is)\\s+not\\s+(?:just|only|merely|simply)\\b",
+      "\\bnot\\s+(?:just|only|merely)\\b[^.!?]{0,60}\\bbut\\b",
+      "\\bmore than (?:just )?an?\\b",
+      "\\bisn'?t\\s+(?:about\\s+)?[^.!?]{1,60}[.!?]\\s+it'?s\\b",
+      "\\bit'?s not about\\b",
+      "\\bthe real (?:question|problem|issue|challenge|work)\\s+(?:isn'?t|is not)\\b",
+      "\\bI don'?t think\\b[^.!?]{1,80}[.!?]\\s+I think\\b",
+      "\\byou don'?t\\b[^.!?]{1,60}[.!?]\\s+(?:often |usually )?you\\b"
+    ]
+  },
+  "drama": {
+    "severity": "hit",
+    "patterns": [
+      "\\bgame[- ]chang\\w+",
+      "\\bpivotal\\b",
+      "\\bever[- ]evolving\\b",
+      "\\ba testament to\\b",
+      "\\bprofound (?:shift|change|impact)\\b",
+      "\\bunderscores? the importance\\b",
+      "\\bparadigm shift\\b",
+      "\\bnew era\\b",
+      "\\bfundamental(?:ly)? (?:shift|chang)\\w*"
+    ]
+  },
+  "empty_analysis": {
+    "severity": "hit",
+    "patterns": [
+      ",\\s+(?:highlighting|underscoring|reflecting|fostering|ensuring|showcasing|emphasizing|emphasising)\\b",
+      "\\bthis (?:highlights|underscores|reflects|demonstrates|showcases)\\b"
+    ]
+  },
+  "vague_claim": {
+    "severity": "hit",
+    "patterns": [
+      "\\bplays? an? (?:key|crucial|vital|important|significant|pivotal) role\\b",
+      "\\bsignificant impact\\b",
+      "\\bnew opportunities\\b",
+      "\\bunique ecosystem\\b"
+    ]
+  },
+  "fake_authority": {
+    "severity": "hit",
+    "patterns": [
+      "\\bexperts? (?:suggest|say|agree|believe)\\b",
+      "\\bstudies (?:have )?show\\w*\\b",
+      "\\bresearch (?:has )?show\\w*\\b",
+      "\\bit is widely (?:recognized|recognised|known|accepted)\\b"
+    ]
+  },
+  "chat_filler": {
+    "severity": "hit",
+    "patterns": [
+      "\\bgreat question\\b",
+      "\\blet'?s dive in\\b",
+      "\\bdive into\\b",
+      "\\bit'?s worth noting\\b",
+      "\\bin today'?s (?:rapidly |fast[- ])?\\w*\\s*world\\b",
+      "\\bit'?s important to (?:note|understand)\\b",
+      "\\bhere'?s the thing\\b",
+      "\\blet that sink in\\b",
+      "\\bat the end of the day\\b"
+    ]
+  },
+  "llm_vocab": {
+    "severity": "hint",
+    "patterns": [
+      "\\bdelv\\w+",
+      "\\btapestry\\b",
+      "\\bnuanced\\b",
+      "\\brobust\\b",
+      "\\bseamless\\w*",
+      "\\bcomprehensive\\b",
+      "\\binnovative\\b",
+      "\\btransformative\\b",
+      "\\bdynamic\\b",
+      "\\bleverag\\w+",
+      "\\bempower\\w+",
+      "\\bcrucial\\b",
+      "\\bvital\\b",
+      "\\blandscape\\b",
+      "\\bunlock\\w*",
+      "\\bjourney\\b",
+      "\\brealm\\b"
+    ]
+  }
+}

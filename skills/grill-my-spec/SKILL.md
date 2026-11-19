@@ -1,3 +1,8 @@
+---
+name: grill-my-spec
+description: "Turn an agent into an adversarial reviewer of a specification (or plan, or design doc) — a merciless lens that argues with reasons and holds no veto."
+---
+
 # grill-my-spec
 
 > Turn an agent into an adversarial reviewer of a specification (or plan, or

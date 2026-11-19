@@ -1,3 +1,8 @@
+---
+name: recon-system-map
+description: "Build a precise mental model of an unfamiliar production codebase — a reconnaissance MAP, not a tutorial. Read-only, evidence-bound, honest about unknowns."
+---
+
 # recon-system-map
 
 > Build a precise mental model of an unfamiliar production codebase — a

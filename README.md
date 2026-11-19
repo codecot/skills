@@ -15,9 +15,22 @@ judgement in the loop:
 - RAG that abstains instead of inventing
 - critics that argue with reasons, and never hold veto
 
+## Install in Claude Code
+
+```
+/plugin install codecot --marketplace codecot/skills
+```
+
+Or in two steps: `/plugin marketplace add codecot/skills`, then
+`/plugin install codecot@codecot`. Skills then show up as `codecot:<name>`
+(for example `codecot:grill-my-spec`), agents as subagents. In any other agent
+or chat, open a card and paste it: every `skills/<name>/SKILL.md` is still a
+plain card.
+
 ## Structure
 
-- `skills/` — single-purpose prompts you paste into any capable agent
+- `skills/` — single-purpose prompts, one folder per skill (`skills/<name>/SKILL.md`),
+  usable as Claude Code skills or pasted into any capable agent
   (Claude Code, Codex, Cursor, a chat). Each is a versioned card with
   provenance: where it came from, what it's for, its known limits.
 - `tools/` — small executable tools that carry the same theme into code.
@@ -46,6 +59,11 @@ generated in bulk. If something here is wrong or has a sharper form, open an
 issue: adversarial review is the point.
 
 — Volodymyr Pasichnyk · [codecot.com](https://codecot.com)
+
+## Added 2026-11
+
+- Claude Code plugin: the repo is now its own marketplace (`.claude-plugin/`); cards moved to `skills/<name>/SKILL.md` with front matter, agents got front matter, card text unchanged. Card template: `docs/card-template.md`.
+- `prose-check` — three passes before a text goes public: meaning (is there a claim, does each sentence earn its place), LLM stamps (a scanner in `scripts/` that exits 1 on any hit), facts (a source for every number). Hands back the text, its claim, what was cut and what is unverified.
 
 ## Added 2026-10
 
